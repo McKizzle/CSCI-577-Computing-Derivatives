@@ -10,12 +10,13 @@ def arrayify(f, x_0, h, length):
         :param h: the step size. 
         :param length: the number of steps to perform.
     """
-    return np.array([f(x_0 + h * i) for i in range(0, length)])
+    return np.array([f(x_0 + h * i) for i in range(0, int(length))])
 
 def mse(f, f_golden):
     pass
 
 class Derivative:
+
     def __init__(self, finite_difference_formula, finite_difference_args):
         """ The Derivative class
             :param f: the candidate formula to calculate the derivate for. 
@@ -24,7 +25,7 @@ class Derivative:
         """
         self.f = finite_difference_formula
         self.f_args = finite_difference_args
-
+    
     def derive(self, f, x_0, length):
         """ Calculates the derivatives of a function
             :param f: the function to calculate the derivatives for.
