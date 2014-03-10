@@ -74,7 +74,7 @@ def main():
         for key, val in first_derivatives.iteritems():
             #print key
             val[3][0] = dx
-            derivative = drvt.Derivative(dcnv.derive, val)
+            derivative = drvt.Derivative(dcnv.derive_dot, val)
             y = derivative.derive(f, x_0, x_max) 
             rss = drvt.rss(y, y_golden)
 
@@ -112,7 +112,7 @@ def main():
         for key, val in second_derivatives.iteritems():
             #print key
             val[3][0] = dx
-            derivative = drvt.Derivative(dcnv.derive, val)
+            derivative = drvt.Derivative(dcnv.derive_dot, val)
             y = derivative.derive(f, x_0, x_max) 
             rss = drvt.rss(y, y_golden)
             if key in rss_vals:
