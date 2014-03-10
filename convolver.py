@@ -37,38 +37,68 @@ def derive(y,cf,lcf,rcf,h):
     lcf=np.array(lcf).astype(float)
     rcf=np.array(rcf).astype(float)
     h=np.array(h).astype(float)
-##    print "------------------------------------------------"
-##    print y
-##    print cf
-##    print lcf
-##    print rcf
-##    print h
-    out=[]
-    indexes = np.array(rcf[1]).astype(int)
-    y_s = np.array(y[indexes])
-    dydx=1/(h[1]*(h[0]**h[2]))*np.dot(y_s,rcf[0])
-    #print(dydx)
-    out.append(dydx)
-    #***************************************
+    
     starti=int(cf[1][0])
-    #print(starti)
     stopi=int(cf[1][-1])
-    #print(stopi)
+
+ 
+    out=[]
+    for i in range(0, np.abs(starti)):
+        #print i
+        indexes = np.array(rcf[1]).astype(int) + i
+        y_s = np.array(y[indexes])
+        dydx=1/(h[1]*(h[0]**h[2]))*np.dot(y_s,rcf[0])
+        out.append(dydx)
+
+    # Center differential
     for i in range(abs(starti),len(y)-stopi,1):
         indexes = np.array(cf[1]).astype(int) + i
         y_s = np.array(y[indexes])
-        #test=sig.convolve(y_s,cf[0],'same')
-        #print(test)
-        #print(h)
         dydx=1/(h[1]*(h[0]**h[2]))*np.dot(y_s,cf[0])
-        #print(dydx)
         out.append(dydx)
-#*******************************************************
+    
+    # Left differential
+    #print len(y)
+    for i in range(len(y) - stopi, len(y)):
+        #print i
+        indexes = np.array(lcf[1]).astype(int) + i
+        y_s = y[indexes]
+        dydx=1/(h[1]*(h[0]**h[2]))*np.dot(y_s,lcf[0])
+        out.append(dydx)
+    
+    return out
+
+def derive2(y,cf,lcf,rcf,h):
+    cf=np.array(cf).astype(float)
+    lcf=np.array(lcf).astype(float)
+    rcf=np.array(rcf).astype(float)
+    h=np.array(h).astype(float)
+    
+    out=[]
+
+    # Right-hand differential
+    indexes = np.array(rcf[1]).astype(int)
+    y_s = np.array(y[indexes])
+    conv=np.array(sig.convolve(y_s,rcf[0],'valid'))
+    dydx=(1/(h[1]*(h[0]**h[2])))*conv
+    out.append(-1*np.sum(dydx))
+    
+    # Center differential
+    starti=int(cf[1][0])
+    stopi=int(cf[1][-1])
+    for i in range(abs(starti),len(y)-stopi,1):
+        indexes = np.array(cf[1]).astype(int) + i
+        y_s = np.array(y[indexes])
+        conv=np.array(sig.convolve(y_s,cf[0],'valid'))
+        dydx=(1/(h[1]*(h[0]**h[2])))*conv
+        out.append(-1*np.sum(dydx))
+    
+    # Left-hand differential 
     indexes = np.array(lcf[1]).astype(int)+(len(y)-1)
     y_s = y[indexes]
-    dydx=1/(h[1]*(h[0]**h[2]))*np.dot(y_s,lcf[0])
-    #print(dydx)
-    out.append(dydx)
+    conv=sig.convolve(y_s,lcf[0],'valid')
+    dydx=(1/(h[1]*(h[0]**h[2])))*conv
+    out.append(-1*np.sum(dydx))
     
     return out
 
