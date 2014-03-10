@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 import derivative as drvt
-import Convolver as dcnv
+import convolver as dcnv
 import numpy as np
 import matplotlib.pyplot as plt
 
