@@ -94,8 +94,9 @@ def main():
     plt.title("Squared Errors in First Derivative Evaluations sin(x)")
     plt.xlabel("h")
     plt.ylabel("Squared Error")
-    plt.legend(lgnds, lgndslbs)
+    plt.legend(lgnds, lgndslbs, loc=2)
     plt.savefig("first_derivative_sine.png", bbox_inches="tight", dpi=240)
+    plt.close()
     
     
     print "Second Derivative of sin(x)"
@@ -131,8 +132,9 @@ def main():
     plt.title("Squared Errors in Second Derivative Evaluations sin(x)")
     plt.xlabel("h")
     plt.ylabel("Squared Error")
-    plt.legend(lgnds, lgndslbs)
+    plt.legend(lgnds, lgndslbs, loc=2)
     plt.savefig("second_derivative_sine.png", bbox_inches="tight", dpi=240)
+    plt.close()
 
      
     return 0.0
