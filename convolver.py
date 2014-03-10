@@ -72,31 +72,26 @@ def derive_conv(y,cf,lcf,rcf,h):
     starti=int(cf[1][0])
     stopi=int(cf[1][-1])
     
-    out=[]
+    out=np.array([])
 
-    # Right-hand differential
+    # Right differential 
     for i in range(0, np.abs(starti)):
         indexes = np.array(rcf[1]).astype(int) + i
         y_s = np.array(y[indexes])
-        conv=np.array(sig.convolve(y_s,rcf[0],'valid'))
-        dydx=(1/(h[1]*(h[0]**h[2])))*conv
-        out.append(-1*np.sum(dydx))
+        dydx=1/(h[1]*(h[0]**h[2]))*np.dot(y_s,rcf[0])
+        out = np.append(out, dydx)
    
     # Center differential
-    for i in range(abs(starti),len(y)-stopi,1):
-        indexes = np.array(cf[1]).astype(int) + i
-        y_s = np.array(y[indexes])
-        conv=np.array(sig.convolve(y_s,cf[0],'valid'))
-        dydx=(1/(h[1]*(h[0]**h[2])))*conv
-        out.append(-1*np.sum(dydx))
+    conv=np.array(sig.convolve(y,cf[0],'valid'))
+    dydx=(1/(h[1]*(h[0]**h[2])))*conv
+    out = np.append(out, dydx)
     
     # Left-hand differential 
     for i in range(len(y) - stopi, len(y)):
         indexes = np.array(lcf[1]).astype(int) + i
         y_s = y[indexes]
-        conv=sig.convolve(y_s,lcf[0],'valid')
-        dydx=(1/(h[1]*(h[0]**h[2])))*conv
-        out.append(-1*np.sum(dydx))
+        dydx=1/(h[1]*(h[0]**h[2]))*np.dot(y_s,lcf[0])
+        out = np.append(out, dydx)
     
     return out
 
