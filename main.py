@@ -73,24 +73,24 @@ def main():
         print "dx = %f" % dx
         for key, val in first_derivatives.iteritems():
             #print key
-            print val
+            #print val
             val[3][0] = dx
-            derivative = drvt.Derivative(dcnv.derive_conv, val)
+            derivative = drvt.Derivative(dcnv.derive_dot, val)
             y = derivative.derive(f, x_0, x_max) 
             rss = drvt.rss(y, y_golden)
             
-            x = np.arange(x_0, x_max, dx)
-            plt.plot(x, y, 'k')
-            plt.plot(x, y_golden, 'r')
-            plt.show()
-            break
+            #x = np.arange(x_0, x_max, dx)
+            #plt.plot(x, y, 'k')
+            #plt.plot(x, y_golden, 'r')
+            #plt.show()
+            #break
 
             if key in rss_vals:
                 rss_vals[key].append(rss)
             else:
                 rss_vals[key] = [rss]
 
-        break
+        #break
     
     lgnds = []
     lgndslbs = []
@@ -122,21 +122,21 @@ def main():
         for key, val in second_derivatives.iteritems():
             #print key
             val[3][0] = dx
-            derivative = drvt.Derivative(dcnv.derive_conv, val)
+            derivative = drvt.Derivative(dcnv.derive_dot, val)
             y = derivative.derive(f, x_0, x_max) 
             rss = drvt.rss(y, y_golden)
 
-            x = np.arange(x_0, x_max, dx)
-            plt.plot(x, y, 'k')
-            plt.plot(x, y_golden, 'r')
-            plt.show()
-            break
+            #x = np.arange(x_0, x_max, dx)
+            #plt.plot(x, y, 'k')
+            #plt.plot(x, y_golden, 'r')
+            #plt.show()
+            #break
 
             if key in rss_vals:
                 rss_vals[key].append(rss)
             else:
                 rss_vals[key] = [rss]
-        break
+        #break
 
     lgnds = []
     lgndslbs = []
